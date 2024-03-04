@@ -1,9 +1,18 @@
 @forward "utilities";
 @forward "components";
+@forward "layouts";
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 body {
   font-size: 16px;
   font-weight: 400;
   font-family: "Inter", sans-serif;
+  min-height: 100dvh;
+  background-color: var(--bg);
+}
+
+.container {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 10px 20px;
 }

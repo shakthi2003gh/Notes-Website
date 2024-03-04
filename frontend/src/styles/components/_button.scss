@@ -1,0 +1,33 @@
+.btn {
+  --5px: 0.3125em;
+  --6px: 0.375em;
+  --15px: calc(var(--5px) * 3);
+
+  text-transform: capitalize;
+  padding: var(--5px) var(--15px);
+  padding-bottom: var(--6px);
+  border-radius: var(--5px);
+  user-select: none;
+
+  &.btn--primary {
+    border: none;
+    color: var(--clr-light);
+    background-color: var(--clr-primary);
+  }
+
+  &:disabled {
+    opacity: 0.7 !important;
+  }
+
+  &:active {
+    opacity: 0.9 !important;
+  }
+
+  @media (hover: hover) {
+    opacity: 0.9;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
