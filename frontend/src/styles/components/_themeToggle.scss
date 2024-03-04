@@ -1,0 +1,12 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.2rem;
+  color: var(--clr-primary);
+
+  [dark] & svg {
+    color: var(--clr-light);
+    opacity: 0.82;
+  }
+}

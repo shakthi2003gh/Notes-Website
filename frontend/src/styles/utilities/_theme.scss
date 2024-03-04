@@ -1,0 +1,31 @@
+html {
+  color-scheme: dark light;
+}
+
+:root {
+  --clr-light: rgb(255, 255, 255);
+  --clr-light-400: rgb(243 243 243);
+  --clr-dark: rgba(25, 25, 25, 1);
+  --clr-dark-400: rgb(37 37 37);
+  --clr-primary: rgb(131, 82, 195);
+
+  --clr-text: var(--clr-dark);
+  --bg: var(--clr-light);
+  --bg-secondary: var(--clr-light-400);
+
+  [light] {
+    color-scheme: light;
+
+    --clr-text: var(--clr-dark);
+    --bg: var(--clr-light);
+    --bg-secondary: var(--clr-light-400);
+  }
+
+  [dark] {
+    color-scheme: dark;
+
+    --clr-text: var(--clr-light);
+    --bg: var(--clr-dark);
+    --bg-secondary: var(--clr-dark-400);
+  }
+}
