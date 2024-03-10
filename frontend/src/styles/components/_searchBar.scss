@@ -1,0 +1,56 @@
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 38px;
+  padding: 0.4rem 0.8rem;
+  padding-right: 0.4rem;
+  background-color: var(--bg-secondary);
+  border-radius: 5px;
+
+  svg {
+    flex-shrink: 0;
+    font-size: 1.3rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+
+  button {
+    display: grid;
+    place-content: center;
+    border-radius: 4px;
+    outline: none;
+    background-color: var(--clr-danger);
+
+    svg {
+      font-size: 1.5rem;
+
+      [light] & {
+        color: var(--clr-light);
+      }
+    }
+
+    @media (hover: hover) {
+      background-color: transparent;
+
+      [light] & svg {
+        color: var(--clr-text);
+      }
+
+      &:hover,
+      &:focus-visible {
+        background-color: var(--clr-danger);
+
+        svg {
+          color: var(--clr-light);
+        }
+      }
+    }
+  }
+}

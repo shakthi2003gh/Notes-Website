@@ -11,6 +11,7 @@ export function useNotes() {
 export default function NotesProvider({ children }) {
   const [isLoading, setLoading] = useState(true);
   const [notes, setNotes] = useState([]);
+  const [search, setSearch] = useState("");
 
   const createNote = ({ title, text }) => {
     if (!title.trim() && !text.trim()) return;
@@ -46,6 +47,16 @@ export default function NotesProvider({ children }) {
     };
   }, []);
 
-  const value = { isLoading, notes, createNote, editNote, deleteNote };
+  const searchFilter = (n) =>
+    n.title.toLowerCase()?.includes(search.toLowerCase());
+
+  const displayNotes = notes.filter(searchFilter);
+  const searchNotFound = !!search.length && !displayNotes.length;
+
+  const v1 = { isLoading, notes: displayNotes, searchNotFound };
+  const v2 = { createNote, editNote, deleteNote };
+  const v3 = { search, setSearch };
+  const value = { ...v1, ...v2, ...v3 };
+
   return <NoteContext.Provider value={value}>{children}</NoteContext.Provider>;
 }
