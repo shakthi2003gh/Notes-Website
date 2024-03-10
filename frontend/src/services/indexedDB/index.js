@@ -1,0 +1,1 @@
+export { NotesLocalDB } from "./notes";
