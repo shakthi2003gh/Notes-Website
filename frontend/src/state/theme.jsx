@@ -10,9 +10,7 @@ const ThemeContext = createContext(InitialTheme);
 document.body.setAttribute(InitialTheme, true);
 
 export function useTheme() {
-  const { theme, themeToggle } = useContext(ThemeContext);
-
-  return { theme, isDarkTheme: theme === "dark", themeToggle };
+  return useContext(ThemeContext);
 }
 
 export default function ThemeProvider({ children }) {
@@ -30,9 +28,8 @@ export default function ThemeProvider({ children }) {
     });
   };
 
+  const value = { theme, isDarkTheme: theme === "dark", themeToggle };
   return (
-    <ThemeContext.Provider value={{ theme, themeToggle }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }

@@ -24,7 +24,13 @@ export default function Toggle({ ON, height, gap, onToggle }) {
       style={style}
     >
       <div className="nob"></div>
-      <input type="checkbox" checked={value} onChange={handleToggle} hidden />
+      <input
+        name="toggle"
+        type="checkbox"
+        checked={value}
+        onChange={handleToggle}
+        hidden
+      />
     </label>
   );
 }

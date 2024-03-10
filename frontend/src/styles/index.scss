@@ -8,11 +8,22 @@ body {
   font-weight: 400;
   font-family: "Inter", sans-serif;
   min-height: 100dvh;
+  color: var(--clr-text);
   background-color: var(--bg);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 51px);
+  overflow: hidden auto;
+
+  @media (min-width: 678px) {
+    height: calc(100dvh - 53.09px);
+  }
 }
 
 .container {
   max-width: 1440px;
   margin-inline: auto;
-  padding: 10px 20px;
 }
