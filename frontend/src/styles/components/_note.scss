@@ -1,0 +1,173 @@
+.note,
+.note-loading {
+  width: 100%;
+  max-width: 520px;
+  max-height: 80dvh;
+  padding: 1.2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 10px;
+  overflow: hidden auto;
+}
+
+.note {
+  &:not(.expanded) {
+    user-select: none;
+    cursor: pointer;
+  }
+
+  &__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__text {
+    font-size: 0.9rem;
+    font-family: inherit;
+    margin-bottom: 5px;
+    opacity: 0.8;
+  }
+
+  &__text.strink {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .empty {
+    opacity: 0.4;
+
+    &-note {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.5rem;
+      opacity: 0.4;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .note__title,
+    .note__text {
+      display: block;
+      width: 100%;
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+
+    .note__text {
+      height: 60px;
+      max-height: 300px;
+      padding-right: 5px;
+      margin-top: 0.9rem;
+      resize: none;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+
+      .trash {
+        font-size: 24px;
+      }
+    }
+  }
+
+  button.trash {
+    height: 24px;
+    color: var(--clr-danger);
+
+    @media (hover: hover) {
+      opacity: 0.5;
+
+      &:hover,
+      &:focus-visible {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.note-loading {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::before {
+    --shadow: rgba(255, 255, 255, 0.25);
+
+    position: absolute;
+    top: -50%;
+    left: 0;
+    content: "";
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      var(--shadow),
+      rgba(255, 255, 255, 0)
+    );
+    animation: load 1.5s infinite ease-in-out;
+    rotate: 20deg;
+    opacity: 0.1;
+
+    [light] & {
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  .title,
+  .line {
+    position: relative;
+    background-color: var(--clr-text);
+    z-index: 54654;
+  }
+
+  .title {
+    width: 75%;
+    height: 1.3rem;
+    border-radius: 4px;
+    opacity: 0.12;
+  }
+
+  .para {
+    margin-top: 1.2rem;
+    margin-bottom: 5px;
+    opacity: 0.5;
+
+    .line {
+      width: 95%;
+      height: 1rem;
+      margin-top: 0.5rem;
+      border-radius: 3px;
+      opacity: 0.1;
+
+      &:last-child {
+        width: 60%;
+      }
+    }
+  }
+}
+
+@keyframes load {
+  from {
+    transform: translateX(-150%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
