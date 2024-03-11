@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { IoMdTrash } from "react-icons/io";
 import { useNotes } from "../state/notes";
+import { useDebounceFn } from "../hooks/useDebounce";
 import { usePopup } from "../layouts/popup";
 
 export default function Note({ id, title, text, expand, loading }) {
@@ -10,13 +11,13 @@ export default function Note({ id, title, text, expand, loading }) {
   const { display, close } = usePopup();
   const { createNote, editNote, deleteNote } = useNotes();
 
-  const handleChange = () => {
+  const handleChange = useDebounceFn(() => {
     const id = idRef.current;
     const note = { title: titleRef.current.value, text: textRef.current.value };
 
     if (id) return editNote({ id, ...note });
     idRef.current = createNote(note);
-  };
+  }, 150);
 
   const handleDelete = (e) => {
     e.stopPropagation();
