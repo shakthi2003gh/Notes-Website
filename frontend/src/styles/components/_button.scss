@@ -21,12 +21,12 @@ button {
     background-color: var(--clr-primary);
   }
 
-  &:disabled {
-    opacity: 0.7 !important;
-  }
-
   &:active {
     opacity: 0.9 !important;
+  }
+
+  &:disabled {
+    opacity: 0.7 !important;
   }
 
   @media (hover: hover) {
