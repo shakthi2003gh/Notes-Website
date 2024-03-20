@@ -1,6 +1,7 @@
 const { error } = require("../common/logger");
+const Response = require("../common/response");
 
 exports.error = function (err, _req, res, _next) {
-  res.status(500).send("Something failed.");
+  Response.somthingWentWrong(res);
   error(err);
 };
