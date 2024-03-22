@@ -1,4 +1,6 @@
-exports.OTPResponse = class {
+const { NoteResponse } = require("./notes");
+
+exports.OTPResponse = class extends NoteResponse {
   static otpSend(res) {
     const status = 201;
     const response = { status, message: "OTP send successfully" };

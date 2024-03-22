@@ -24,6 +24,7 @@ const schema = new mongoose.Schema({
   notes: {
     data: {
       type: [mongoose.Types.ObjectId],
+      ref: "Note",
       default: [],
     },
     lastSync: {
@@ -47,6 +48,16 @@ schema.methods.generateAuthToken = function () {
   const payload = { id: this.id };
 
   return jwt.sign(payload, process.env.JWT_KEY);
+};
+
+schema.methods.removeNote = async function (id) {
+  const noteId = id.toString();
+
+  this.notes.data = this.notes.data.filter((_id) => _id.toString() !== noteId);
+  this.notes.lastSync = Date.now();
+  await this.save();
+
+  return this.notes.lastSync;
 };
 
 exports.User = mongoose.model("User", schema);

@@ -1,6 +1,20 @@
 const { OTPResponse } = require("./otp");
 
 exports.userResponse = class extends OTPResponse {
+  static noAuthToken(res) {
+    const status = 400;
+    const response = { status, message: "Access denied. No token provided." };
+
+    res.status(status).json(response);
+  }
+
+  static invalidAuthToken(res) {
+    const status = 401;
+    const response = { status, message: "Invalid Auth Token" };
+
+    res.status(status).json(response);
+  }
+
   static inValidCredential(res) {
     const status = 401;
     const response = { status, message: "Invalid email or password" };
@@ -39,20 +53,6 @@ exports.userResponse = class extends OTPResponse {
   static emailAlreadyRegister(res) {
     const status = 409;
     const response = { status, message: "User with email already register" };
-
-    res.status(status).json(response);
-  }
-
-  static noAuthToken(res) {
-    const status = 400;
-    const response = { status, message: "Access denied. No token provided." };
-
-    res.status(status).json(response);
-  }
-
-  static invalidAuthToken(res) {
-    const status = 401;
-    const response = { status, message: "Invalid Auth Token" };
 
     res.status(status).json(response);
   }
