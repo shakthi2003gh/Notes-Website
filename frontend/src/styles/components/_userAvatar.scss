@@ -1,0 +1,23 @@
+.user-avatar {
+  font-size: 1.05rem;
+
+  svg {
+    font-size: 0.85em;
+  }
+
+  @media (min-width: 678px) {
+    font-size: 1.2rem;
+  }
+
+  @media (hover: hover) {
+    opacity: 0.8;
+
+    &:is(:hover, :focus-visible) {
+      opacity: 1;
+    }
+
+    &:active {
+      opacity: 0.8;
+    }
+  }
+}

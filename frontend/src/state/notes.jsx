@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { NotesLocalDB } from "../services/indexedDB";
+import IndexedDB from "../services/indexedDB";
 
 const NoteContext = createContext(null);
-const notesLocalDB = new NotesLocalDB();
+const notesLocalDB = new IndexedDB("notes");
 
 export function useNotes() {
   return useContext(NoteContext);
@@ -35,16 +35,10 @@ export default function NotesProvider({ children }) {
   };
 
   useEffect(() => {
-    const t = setTimeout(() => {
-      notesLocalDB
-        .getAll()
-        .then(setNotes)
-        .finally(() => setLoading(false));
-    }, 2000);
-
-    return () => {
-      clearTimeout(t);
-    };
+    notesLocalDB
+      .getAll()
+      .then(setNotes)
+      .finally(() => setLoading(false));
   }, []);
 
   const searchFilter = (n) =>

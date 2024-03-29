@@ -1,13 +1,16 @@
 import NetworkProvider from "./network";
-import ThemeProvider from "./theme";
+import UserProvider from "./user";
 import NotesProvider from "./notes";
+import ThemeProvider from "./theme";
 
 export default function StateProvider({ children }) {
   return (
     <NetworkProvider>
-      <ThemeProvider>
-        <NotesProvider>{children}</NotesProvider>
-      </ThemeProvider>
+      <UserProvider>
+        <NotesProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </NotesProvider>
+      </UserProvider>
     </NetworkProvider>
   );
 }
