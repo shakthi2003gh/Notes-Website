@@ -41,6 +41,18 @@ button {
     background-color: var(--clr-primary);
   }
 
+  &.btn--success {
+    border: none;
+    color: var(--clr-light);
+    background-color: var(--clr-success);
+  }
+
+  &.btn--danger {
+    border: none;
+    color: var(--clr-light);
+    background-color: var(--clr-danger);
+  }
+
   &:active {
     opacity: 0.9 !important;
   }

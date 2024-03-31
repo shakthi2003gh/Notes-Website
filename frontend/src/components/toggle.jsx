@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Toggle({ ON, height, gap, onToggle }) {
+export default function Toggle({ ON, height, gap, onToggle = () => {} }) {
   const [value, setValue] = useState(ON || false);
   const style = { "--height": height, "--gap": gap };
 

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useUser } from "./user";
 
 const KEY = "Note-theme";
 
@@ -15,18 +16,29 @@ export function useTheme() {
 
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(InitialTheme);
+  const { user, setDarkMode } = useUser();
+  const { darkMode } = user?.settings || {};
 
   const themeToggle = () => {
     setTheme((prev) => {
-      const curentTheme = prev === "light" ? "dark" : "light";
+      const currentTheme = prev === "light" ? "dark" : "light";
 
-      localStorage.setItem(KEY, curentTheme);
+      localStorage.setItem(KEY, currentTheme);
       document.body.removeAttribute(prev);
-      document.body.setAttribute(curentTheme, true);
+      document.body.setAttribute(currentTheme, true);
 
-      return curentTheme;
+      return currentTheme;
     });
+
+    setDarkMode(theme !== "dark");
   };
+
+  useEffect(() => {
+    if (!user) return;
+
+    const currentTheme = darkMode ? "dark" : "light";
+    if (currentTheme !== theme) themeToggle();
+  }, [darkMode]);
 
   const value = { theme, isDarkTheme: theme === "dark", themeToggle };
   return (

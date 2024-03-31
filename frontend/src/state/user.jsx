@@ -67,6 +67,23 @@ export default function UserProvider({ children }) {
     return resend({ email });
   };
 
+  const handleSettings = (property) => (value) => {
+    if (!user) return;
+
+    const updatedUser = {
+      ...user,
+      settings: {
+        ...user.settings,
+        [property]: value,
+        lastSync: new Date(Date.now()).toISOString(),
+      },
+      isSynced: false,
+    };
+
+    setUser(updatedUser);
+    userLocalDB.update(updatedUser);
+  };
+
   useEffect(() => {
     setLoading(true);
 
@@ -82,6 +99,8 @@ export default function UserProvider({ children }) {
     register: handleRegister,
     verify: handleVerify,
     resend: handleResend,
+    setDarkMode: handleSettings("darkMode"),
+    setAutoSync: handleSettings("autoSync"),
   };
   const value = { user, isLoading, ...methods };
 
