@@ -22,7 +22,7 @@ module.exports = class {
     const isVerified = await bcrypt.compare(value.password, isExist.password);
     if (!isVerified) return Response.inValidCredential(res);
 
-    const user = await User.findById(isExist._id).select("-password");
+    const user = await User.findById(isExist._id).select("-password -notes");
     const token = user.generateAuthToken();
     res.setHeader("Authorization", token).json(user);
   }
@@ -69,7 +69,8 @@ module.exports = class {
 
     await user.save();
 
-    const userResponse = await User.findById(user._id).select("-password");
+    const select = "-password -notes";
+    const userResponse = await User.findById(user._id).select(select);
     const token = userResponse.generateAuthToken();
     res.status(201).setHeader("Authorization", token).json(userResponse);
   }
@@ -88,5 +89,17 @@ module.exports = class {
   static async delete(req, res) {
     await User.deleteOne({ _id: req.user.id });
     res.status(204).end();
+  }
+
+  static async syncSettings(req, res) {
+    const { error, value } = Validate.settings(req.body);
+    if (error) return Response.badPayload(res, error.details[0].message);
+
+    const newLastSync = await req.user.syncSettings(value);
+    res.json({ lastSync: newLastSync });
+  }
+
+  static async checkSettingsSync(req, res) {
+    res.json(req.user?.settings);
   }
 };

@@ -5,10 +5,14 @@ const { validateObjectId } = require("../middleware/validateObjectId");
 
 const router = express.Router();
 
-router.get("/", auth, controller.get);
-router.get("/:id", validateObjectId, auth, controller.getNote);
-router.post("/", auth, controller.create);
-router.patch("/:id", validateObjectId, auth, controller.update);
-router.delete("/:id", validateObjectId, auth, controller.delete);
+router.use(auth);
+
+router.get("/", controller.get);
+router.get("/sync", controller.checkSync);
+router.get("/:id", validateObjectId, controller.getNote);
+router.get("/:id/sync", controller.checkSync);
+router.post("/", controller.create);
+router.patch("/:id", validateObjectId, controller.update);
+router.delete("/:id", validateObjectId, controller.delete);
 
 exports.notes = router;

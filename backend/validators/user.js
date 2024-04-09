@@ -36,4 +36,13 @@ module.exports = class {
 
     return Joi.object(schema).validate(payload);
   }
+
+  static settings(payload) {
+    const schema = {
+      darkMode: Joi.boolean().required(),
+      autoSync: Joi.boolean().required(),
+    };
+
+    return Joi.object(schema).validate(payload);
+  }
 };

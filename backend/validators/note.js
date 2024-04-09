@@ -3,8 +3,8 @@ const Joi = require("joi");
 module.exports = class {
   static create(payload) {
     const schema = {
-      title: Joi.string(),
-      text: Joi.string(),
+      title: Joi.string().allow(""),
+      text: Joi.string().allow(""),
       autoSync: Joi.boolean(),
     };
 

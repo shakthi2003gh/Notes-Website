@@ -1,26 +1,32 @@
+const mongoose = require("mongoose");
+const _ = require("lodash");
 const Response = require("../common/response");
 const { Note } = require("../models/note");
 const Validate = require("../validators/note");
 
+const defaultNotSelectList = ["creator", "__v"];
+const defaultNotSelect = "-" + defaultNotSelectList.join(" -");
+
 module.exports = class {
   static async get(req, res) {
-    const notes = await Note.find({ _id: { $in: req.user.notes.data } });
+    const find = { _id: { $in: req.user.notes.data } };
+    const notes = await Note.find(find).select(defaultNotSelect);
 
     res.json({ notes, lastSync: req.user.notes.lastSync });
   }
 
   static async getNote(req, res) {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findById(req.params.id).lean();
 
     const isAuthorization = note.creator.toString() === req.user.id;
     if (!isAuthorization) return Response.unauthorizedNoteAccess(res);
 
-    res.json(note);
+    res.json(_.omit(note, defaultNotSelectList));
   }
 
   static async create(req, res) {
     const { error, value } = Validate.create(req.body);
-    if (error) return Response.badPayload(res);
+    if (error) return Response.badPayload(res, error.details[0].message);
 
     const note = new Note({ ...value, creator: req.user._id });
     req.user.notes.data.push(note._id);
@@ -69,5 +75,21 @@ module.exports = class {
     const lastSync = await req.user.removeNote(note._id);
 
     res.json({ lastSync });
+  }
+
+  static async checkSync(req, res) {
+    const id = req.params?.id;
+    const find = { _id: { $in: req.user.notes.data } };
+    const notes = await Note.find(find).select("_id lastSync").lean();
+
+    if (!id) res.json(notes);
+
+    const isValid = mongoose.isValidObjectId(id);
+    if (!isValid) return res.status(204).end();
+
+    const note = notes.find(({ _id }) => _id.toString() === id);
+    if (!note) return res.status(204).end();
+
+    return res.json(note);
   }
 };

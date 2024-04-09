@@ -41,6 +41,10 @@ const schema = new mongoose.Schema({
       type: Boolean,
       default: true,
     },
+    lastSync: {
+      type: Date,
+      default: Date.now,
+    },
   },
 });
 
@@ -58,6 +62,13 @@ schema.methods.removeNote = async function (id) {
   await this.save();
 
   return this.notes.lastSync;
+};
+
+schema.methods.syncSettings = async function ({ darkMode, autoSync }) {
+  this.settings = { darkMode, autoSync, lastSync: Date.now() };
+  await this.save();
+
+  return this.settings.lastSync;
 };
 
 exports.User = mongoose.model("User", schema);
