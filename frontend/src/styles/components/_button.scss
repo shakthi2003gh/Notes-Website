@@ -15,9 +15,9 @@ button {
   }
 
   .loading {
-    width: 1em;
+    width: var(--loading-size, 1em);
     aspect-ratio: 1;
-    border: 0.2em solid var(--clr-text);
+    border: var(--loading-width, 0.2em) solid var(--clr-text);
     border-bottom-color: transparent;
     border-radius: 100px;
     animation: rotate 1s ease-in-out infinite;
@@ -73,5 +73,25 @@ button {
 @keyframes rotate {
   100% {
     rotate: 360deg;
+  }
+}
+
+.btn-sync {
+  --loading-size: 0.8em;
+  --loading-width: 0.18em;
+
+  font-size: 1.5rem;
+  height: 24px;
+
+  @media (hover: hover) {
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  @media (min-width: 678px) {
+    font-size: 1.6rem;
   }
 }

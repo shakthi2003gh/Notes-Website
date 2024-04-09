@@ -1,46 +1,52 @@
 import { toast } from "react-toastify";
-import { request } from "./common";
+import Request from "./common";
 
-async function templatePOST(path, payload, cb) {
-  return new Promise((resolve, reject) => {
-    request
-      .post("/user" + path, payload)
-      .then(cb(resolve))
-      .catch(({ response }) => {
-        const { message } = response?.data;
+const request = new Request("/user");
 
-        toast.error(message);
-        reject(message);
-      });
-  });
+const loginSuccessFully = "Login successfully";
+const verifiedSuccessFully = "Verified successfully";
+
+function defaultCallBack(resolve) {
+  return ({ data }) => {
+    toast.success(data.message);
+    resolve();
+  };
+}
+
+function loginCallBack(message) {
+  return (resolve) =>
+    ({ data, headers }) => {
+      localStorage.setItem("Notes-Auth-T", headers.get("Authorization"));
+
+      toast.success(message);
+      resolve(data);
+    };
 }
 
 export function login(payload) {
-  return templatePOST("/login", payload, (resolve) => ({ data }) => {
-    toast.success("Login successfully");
-    resolve(data);
-  });
+  return request.POST("/login", payload, loginCallBack(loginSuccessFully));
 }
 
 export function register(payload) {
-  return templatePOST("/register", payload, (resolve) => ({ data }) => {
-    toast.success(data.message);
-    resolve();
-  });
+  return request.POST("/register", payload, defaultCallBack);
 }
 
 export function verify(payload) {
-  return templatePOST("/verify", payload, (resolve) => ({ data }) => {
-    toast.success("Verified successfully");
+  return request.POST("/verify", payload, loginCallBack(verifiedSuccessFully));
+}
+
+export function resend(payload) {
+  return request.POST("/register/resend-otp", payload, defaultCallBack);
+}
+
+export function settingsSync(settings) {
+  return request.POST("/settings/sync", settings, (resolve) => ({ data }) => {
     resolve(data);
   });
 }
 
-export function resend(payload) {
-  const path = "/register/resend-otp";
-
-  return templatePOST(path, payload, (resolve) => ({ data }) => {
-    toast.success(data.message);
-    resolve(data.message);
+export function checkSettingSync() {
+  return request.GET("/settings/sync", (resolve) => ({ data }) => {
+    resolve(data);
   });
 }

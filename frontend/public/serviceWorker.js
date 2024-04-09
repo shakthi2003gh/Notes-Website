@@ -10,6 +10,7 @@ const cacheAssets = [
   "/images/icon-512x512.png",
   "/src/assets/logo-light.svg",
   "/src/assets/logo-dark.svg",
+  "/src/assets/user-avatar.jpg",
 ];
 
 self.addEventListener("install", (e) => {
@@ -36,11 +37,13 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
+  const res = e.request;
+  if (res.url.includes("/api/")) return;
+
   e.respondWith(
     fetch(e.request)
       .then((res) => {
         const resClone = res.clone();
-
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(e.request, resClone);
         });

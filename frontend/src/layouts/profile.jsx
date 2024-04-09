@@ -7,7 +7,7 @@ import avatarImg from "../assets/user-avatar.jpg";
 import ConfirmPopup from "./confirmPopup";
 
 export default function Profile() {
-  const { user, logout } = useUser();
+  const { user, logout, toggleAutoSync } = useUser();
   const { display, close } = usePopup();
   const { isDarkTheme, themeToggle } = useTheme();
   const { autoSync } = user?.settings || {};
@@ -54,7 +54,7 @@ export default function Profile() {
 
         <div className="sync">
           <span className="title">Auto Sync</span>
-          <Toggle ON={autoSync} />
+          <Toggle ON={autoSync} onToggle={toggleAutoSync} />
         </div>
       </div>
     </div>

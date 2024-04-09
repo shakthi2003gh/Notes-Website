@@ -43,8 +43,8 @@ export default function Notes() {
 
   return (
     <div className="notes container">
-      {notes.map(({ id, ...rest }) => (
-        <Note key={id} id={id} {...rest} />
+      {notes.map(({ _id, ...rest }) => (
+        <Note key={_id} _id={_id} {...rest} />
       ))}
     </div>
   );

@@ -4,8 +4,8 @@ import { useNotes } from "../state/notes";
 import { useDebounceFn } from "../hooks/useDebounce";
 import { usePopup } from "../layouts/popup";
 
-export default function Note({ id, title, text, expand, loading }) {
-  const idRef = useRef(id || "");
+export default function Note({ _id, title, text, expand, loading }) {
+  const idRef = useRef(_id || "");
   const titleRef = useRef();
   const textRef = useRef();
   const { display, close } = usePopup();
@@ -13,15 +13,16 @@ export default function Note({ id, title, text, expand, loading }) {
 
   const handleChange = useDebounceFn(() => {
     const id = idRef.current;
+    const lastSync = new Date(Date.now()).toISOString();
     const note = { title: titleRef.current.value, text: textRef.current.value };
 
-    if (id) return editNote({ id, ...note });
+    if (id) return editNote({ _id: id, lastSync, ...note });
     idRef.current = createNote(note);
   }, 150);
 
   const handleDelete = (e) => {
     e.stopPropagation();
-    id && deleteNote(id);
+    _id && deleteNote(_id);
     expand && close();
   };
 
@@ -33,7 +34,7 @@ export default function Note({ id, title, text, expand, loading }) {
     if (expand) return;
 
     const { code, type } = e;
-    const note = { id, title, text };
+    const note = { _id, title, text };
     const enterKeycodes = ["Enter", "NumpadEnter"];
 
     const isMouseClick = type === "click";
@@ -103,7 +104,7 @@ export default function Note({ id, title, text, expand, loading }) {
               Close
             </button>
 
-            {id && (
+            {_id && (
               <button type="button" className="trash" onClick={handleDelete}>
                 <IoMdTrash />
               </button>

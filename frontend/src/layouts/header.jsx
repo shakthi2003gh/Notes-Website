@@ -7,6 +7,7 @@ import LogoLight from "../assets/logo-light.svg";
 import LogoDark from "../assets/logo-dark.svg";
 import UserAvatar from "../components/userAvatar";
 import ThemeToggle from "../components/themeToggle";
+import { SyncButton } from "../components/button";
 
 export default function Header() {
   const { user } = useUser();
@@ -24,7 +25,13 @@ export default function Header() {
 }
 
 function LogedInLayout() {
-  return <UserAvatar />;
+  return (
+    <>
+      <SyncButton />
+
+      <UserAvatar />
+    </>
+  );
 }
 
 function LogedOutLayout() {

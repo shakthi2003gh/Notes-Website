@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { RiWifiLine } from "react-icons/ri";
 import { RiWifiOffLine } from "react-icons/ri";
 
@@ -10,13 +10,23 @@ export function useNetwork() {
 
 export default function NetworkProvider({ children }) {
   const [isOnline, setOnline] = useState(navigator.onLine);
-  const [canAlert, showALert] = useState(!isOnline);
+  const [canAlert, showAlert] = useState(!isOnline);
+  const alertRef = useRef(null);
+
+  const handleOnline = () => {
+    alertRef.current = setTimeout(() => showAlert(false), 3000);
+  };
+
+  const handleOffline = () => {
+    clearTimeout(alertRef?.current);
+    showAlert(true);
+  };
 
   const checkInternetConnection = (e) => {
     const online = e.type === "online";
 
-    if (online) setTimeout(() => showALert(false), 3000);
-    showALert(true);
+    if (online) handleOnline();
+    else handleOffline();
 
     setOnline(online);
   };

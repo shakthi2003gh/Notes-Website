@@ -1,12 +1,9 @@
-const defaultConfig = { keyPath: "id" };
-
 export default class IndexedDB {
-  constructor(name, config = defaultConfig) {
+  constructor(name) {
     this.version = 1;
     this.dbName = name + "DB";
     this.storeName = name;
     this.loaded = this.init();
-    this.storeConfig = config;
   }
 
   init() {
@@ -17,7 +14,7 @@ export default class IndexedDB {
         const store = e.target.result;
 
         if (!store.objectStoreNames.contains(this.storeName)) {
-          store.createObjectStore(this.storeName, this.storeConfig);
+          store.createObjectStore(this.storeName, { keyPath: "_id" });
         }
       };
 
