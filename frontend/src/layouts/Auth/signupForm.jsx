@@ -122,6 +122,7 @@ function VerifyForm({ email, onNavigate }) {
         type="text"
         inputMode="numeric"
         label={label}
+        autoFocus
       />
 
       <Button className="btn btn--primary" loading={userLoading}>
