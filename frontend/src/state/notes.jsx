@@ -98,7 +98,9 @@ export default function NotesProvider({ children }) {
         const cloud = notes.map(({ _id: id, lastSync, ...rest }) => {
           const note = { _id: id, lastSync, ...rest };
           const index = storedNotes.findIndex(({ _id }) => _id === id);
+          const isDeleted = index < 0 && !Number(id);
 
+          if (isDeleted) return deleteNote(id);
           if (index < 0) return create({ ...rest }).then(localSync(id));
           if (storedNotes[index].lastSync >= lastSync) return null;
           return update(id, note).then(localSync(id));
