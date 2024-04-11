@@ -14,12 +14,20 @@ export default class Request {
   });
 
   handleCatch(reject) {
-    return ({ response }) => {
-      const { message } = response?.data || {};
-      if (!message) return reject("somthing went wrong");
-
+    const alert = (message) => {
       toast.error(message);
       reject(message);
+    };
+
+    return (res) => {
+      const { response, code } = res;
+      const { message } = response?.data || {};
+
+      if (code === "ERR_NETWORK") return alert("Network Error");
+      if (response.status === 404) return alert("Invalid ENDPOINT");
+      if (message) return alert(message);
+
+      reject("somthing went wrong");
     };
   }
 
